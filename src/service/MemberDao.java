@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +55,7 @@ public class MemberDao {
 			//select구문을 실행할때는 executeQuery ,resultset사용
 			rs=pstmt.executeQuery();
 			
-			//row가 있으면 하나씩 찍어 돌려야 한다 
+			//row가 하나임
 			if(rs.next()) {
 				Member m = new Member(
 						rs.getString("id"),
@@ -86,12 +88,13 @@ public class MemberDao {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
 		//insert into member뒤 공백 한칸 있어야함
-		String sql = "update member set tel = ?,email = ? where id = ?";
+		String sql = "update member set tel = ?,email = ?, picture = ? where id = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, mem.getTel() );
 			pstmt.setString(2, mem.getEmail());
-			pstmt.setString(3, mem.getId());
+			pstmt.setString(3, mem.getPicture());
+			pstmt.setString(4, mem.getId());
 			
 			//select문을 제외한 나머지 추가,삭제,수정하는 sql문 실행
 			return pstmt.executeUpdate();
@@ -111,11 +114,10 @@ public class MemberDao {
 	public int deleteMember(String id) {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
-		//insert into member뒤 공백 한칸 있어야함
 		String sql = "delete from member where id = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,id );
+			pstmt.setString(1,id);
 			
 			
 			//select문을 제외한 나머지 추가,삭제,수정하는 sql문 실행 = executeUpdate()
@@ -131,8 +133,71 @@ public class MemberDao {
 		
 		return 0;
 	}//deleteMember메서드
+	
+	
+	public int changePass(String id, String newpass) {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "update member set pass =?  where id =?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,newpass);
+			pstmt.setString(2, id);
+			
+			//select문을 제외한 나머지 추가,삭제,수정하는 sql문 실행 = executeUpdate()
+			return pstmt.executeUpdate();
+			
+		}catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,null);
+		}
+		
+		
+		
+		return 0;
+	}//changePass메서드
 		
 	
+	public List<Member> memberList() {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "select * from member";
+		ResultSet rs = null;
+		List<Member> li = new ArrayList<>();
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			
+			//회원수는 여러개일수 있으니까 while
+			while(rs.next()) {
+				Member m = new Member(
+						rs.getString("id"),
+						rs.getString("pass"),
+						rs.getString("name"),
+						rs.getInt("gender"),
+						rs.getString("tel"),
+						rs.getString("email"),
+						rs.getString("picture")
+						);
+				li.add(m);
+			}
+			//System.out.println(li.size()+"========================");
+			return li;
+		}catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,rs);
+		}
+		
+		
+		
+		
+		return null;
+		
+	}//memberList메서드 
+	
+
 	
 	
 } //end class

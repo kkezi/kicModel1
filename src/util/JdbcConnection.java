@@ -32,7 +32,7 @@ public class JdbcConnection {
 			public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
 			 try {
 				 if(con!=null) {
-					 con.commit();
+					 con.commit(); //저장 
 					 con.close();
 				 }
 				 if(pstmt!=null) {

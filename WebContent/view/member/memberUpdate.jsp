@@ -9,6 +9,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script>
+function win_upload() {
+	
+	const op="width=500, height=150, left=150,top=150";
+	//open('')이야 !
+	open('<%=request.getContextPath()%>/single/pictureForm.jsp',"",op);
+	
+}
+</script>
 <body>
 <%
 	String login = (String)session.getAttribute("memberId");
@@ -40,11 +49,14 @@ location.href="<%=request.getContextPath()%>/view/member/loginForm.jsp";
 
  <div class="container">
 	<h2   id="center">회원정보수정</h2>
-	<form action ="<%=request.getContextPath() %>/view/member/memberUpdatePro.jsp" method ="post">
+	<form action ="<%=request.getContextPath() %>/view/member/memberUpdatePro.jsp" method ="post"  name="f">
+	<input type="hidden" name = "picture" value="<%=mem.getPicture() %>"><!-- hidden은 form문 밑에 넣기  value를 안 쓰면 변경된 이미지저장이 안돼요!-->
 	<div class="row">
 		<div class="col-3   bg-light">
 			<img src = "<%=request.getContextPath()%>/upload/<%=mem.getPicture()%>" width="100" height="120" id="pic">
-
+			<br>
+			<button type = "button" class = "btn btn-dark" onclick = "win_upload()">사진등록</button>
+			
 		</div>
 		<div class="col-9">
 			<div class="form-group">
@@ -81,6 +93,7 @@ location.href="<%=request.getContextPath()%>/view/member/loginForm.jsp";
 
 <div id="center" style="padding: 3px;">
 	<button type="submit" class="btn btn-dark">정보수정</button>
+	<button type="button" class="btn btn-dark" onclick="location.href='<%=request.getContextPath()%>/view/member/passwordForm.jsp'">비밀번호 변경</button>
 </div>
 </form>
 </div>

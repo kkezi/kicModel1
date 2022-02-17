@@ -25,7 +25,7 @@ location.href="<%=request.getContextPath()%>/view/member/loginForm.jsp";
 	<!-- login start -->
 	<div class="container">
 		<h2   id="center">회원탈퇴</h2>
-		<!-- submit하면 데이터 loginPro로 보내기 -->
+		<!-- submit하면 데이터 deletePro로 보내기 -->
 		<form action="<%=request.getContextPath() %>/view/member/deletePro.jsp" method ="post">
 		<div class="form-group">
 			<label>ID:</label> <input type="text"

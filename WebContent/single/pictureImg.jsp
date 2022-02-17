@@ -31,7 +31,7 @@ const img = opener.document.querySelector("#pic");
 //=opener.document.getElementById("pic") 사용도 가능
 
 img.src = "<%=request.getContextPath()%>/upload/<%=filename%>";
-opener.document.f.picture.value = "<%=filename%>";
+opener.document.f.picture.value = "<%=filename%>"; //변경시 변경된 이미지의 이름을 picture value에 넣어라
 self.close();
 </script>
 

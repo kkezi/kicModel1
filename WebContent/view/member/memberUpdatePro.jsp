@@ -1,4 +1,5 @@
 
+
 <%@page import="model.Member"%>
 <%@page import="service.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -35,6 +36,7 @@ location.href="<%=request.getContextPath()%>+"/view/member/loginForm.jsp";
 		//여기는 memberUpdate의 name명 가져오기
 String tel =request.getParameter("tel");
 String email = request.getParameter("email");
+String picture = request.getParameter("picture");
 String pass= request.getParameter("pass");
 
 //로그인 되어있을때 수정해야하니까 로그인 된 정보를 가져와야지
@@ -45,7 +47,9 @@ Member mem = md.selectOne(login);
 //member에 tel,email을 저장
 mem.setTel(tel);
 mem.setEmail(email);
+mem.setPicture(picture);
 
+System.out.println(mem);//수정된 이미지 이름 저장확인
 
 
 if(mem.getPass().equals(pass)) {
