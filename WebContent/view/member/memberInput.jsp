@@ -24,7 +24,7 @@ function idChk(){
 	if(id.length < 8) {
 		result.style.color = 'red'
 		result.innerHTML = 'id는 8자리 이상 입력해주세요'
-	} else { //db입력 id확인
+	} else { //db입력 id확인h
 		ajax("<%=request.getContextPath()%>/single/readId.jsp",param,callback,'get')
 	}
 }//idChk
