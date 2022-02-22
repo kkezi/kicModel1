@@ -20,7 +20,7 @@ board.setWriter(multi.getParameter("writer"));
 board.setPass(multi.getParameter("pass"));
 board.setSubject(multi.getParameter("subject"));
 board.setContent(multi.getParameter("content"));
-board.setFile1(multi.getParameter("file1"));
+board.setFile1(multi.getFilesystemName("file1"));
 
 board.setIp(request.getLocalAddr());
 board.setBoardid("1");
