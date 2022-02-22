@@ -11,12 +11,37 @@ import model.Board;
 import util.JdbcConnection;
 
 public class BoardDao {
+	
+	public int nextNum() {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "select boardseq.nextval from dual";
+		ResultSet rs = null;
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt(1);	
+	
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,rs);
+		}
+		
+		return 0;
+		
+	} //nextNum메서드 
+	
+	
+	
 
 	public int insertBoard(Board board) {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
 		//insert into member뒤 공백 한칸 있어야함 ----그리고 create table 했던 순서 지키기
-		String sql = "insert into board " + " values (boardseq.nextval,?,?,?,?,?,?,sysdate,?,0,?,?,?)";
+		String sql = "insert into board " + " values (boardseq.nextval,?,?,?,?,?,?,sysdate,?,0,boardseq.currentval,?,?)";
 		
 		try {//db에 저장하기
 			pstmt = con.prepareStatement(sql);
@@ -27,9 +52,9 @@ public class BoardDao {
 			pstmt.setString(5, board.getFile1());
 			pstmt.setString(6, board.getBoardid());
 			pstmt.setString(7, board.getIp());
-			pstmt.setInt(8, board.getRef());
-			pstmt.setInt(9, board.getReflevel());
-			pstmt.setInt(10, board.getRefstep());
+			//pstmt.setInt(8, board.getRef());
+			pstmt.setInt(8, board.getReflevel());
+			pstmt.setInt(9, board.getRefstep());
 			
 			
 	
@@ -181,6 +206,80 @@ public class BoardDao {
 		
 		
 	}//boardOne메서드
+	
+	
+	
+	
+	public int boardUpdate(Board board) {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "update board set subject=?, content=?,"
+				+ " file1=? where num =?  ";
+		
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getSubject());
+			pstmt.setString(2, board.getContent());
+			pstmt.setString(3, board.getFile1());
+			pstmt.setInt(4, board.getNum());
+			return pstmt.executeUpdate();
+		
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,null);
+		}
+		
+		
+		
+		return 0;
+	} //update
+	
+	
+	public void readCountUp(int num) {
+		
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql ="update board set readcnt = readcnt + 1 where num =?";
+		
+
+		try {
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, num);
+			 pstmt.executeUpdate();
+		
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,null);
+		}
+		
+	}//조회수 올리는 메서드
+	
+	
+	
+	public int boardDelete(int num) {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql ="delete from board where num =?";
+		
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			return pstmt.executeUpdate();
+		
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,null);
+		}
+		
+			
+		return 0;
+	} //deleteboard 메서드 
 	
 	
 	

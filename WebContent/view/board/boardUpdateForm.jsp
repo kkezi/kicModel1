@@ -19,9 +19,10 @@ Board b = bd.boardOne(num);
 
 
 	<div class="container">
-	<form name="f" action ="writePro.jsp" enctype ="multipart/form-data" method ="post"> <!--  post가 없으면 get으로 날라감 -->
+	<form name="f" action ="boardUpdatePro.jsp" enctype ="multipart/form-data" method ="post"> <!--  post가 없으면 get으로 날라감 -->
+		<input type="hidden" name=file2 value="<%=b.getFile1() %>">
+		<input type="hidden" name="num" value="<%=b.getNum() %>">
 		<h2  id="center">게시판 입력</h2>
-
 			<div class="form-group">
 					<label>작성자:</label> 
 					<input type="text" class="form-control" name="writer" readonly="readonly" value = "<%=b.getWriter()%>">
@@ -35,10 +36,11 @@ Board b = bd.boardOne(num);
 		
 		<div class="form-group">
 			<label>내용</label> 
-			<textarea class="form-control" rows = "10" cols = "50" name="content" value = "<%=b.getContent()%>"></textarea>
+			<textarea class="form-control" rows = "10" cols = "50" name="content"> <%=b.getContent()%></textarea>
 		</div>
 		<div class="form-group">
-			<label>파일저장:</label> <input type="file" class="form-control" name="file1">
+			<label>파일저장:</label> 
+			<input type="file" class="form-control" name="file1">
 		</div>
 
 	

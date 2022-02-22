@@ -14,6 +14,7 @@
 int num = Integer.parseInt(request.getParameter("num"));
 BoardDao bd = new BoardDao();
 Board b = bd.boardOne(num);
+bd.readCountUp(num);
 %>
 <hr>
 <div class="container">
@@ -34,9 +35,10 @@ Board b = bd.boardOne(num);
 			</table>
 			
 			<div id="center" style="padding: 3px;">
-			<button class="btn btn-dark" onclick ="location.href ='<%%>'">답 변</button>
+			<button class="btn btn-dark" onclick ="location.href ='boardReplyForm.jsp?num=<%=b.getNum()%>'">답 변</button>
 			<button class="btn btn-dark" onclick ="location.href ='boardUpdateForm.jsp?num=<%=b.getNum()%>'">수 정</button>
-			<button class="btn btn-dark" onclick ="location.href ='<%%>'">삭 제</button>
+			<button class="btn btn-dark" onclick ="location.href ='boardDeleteForm.jsp?num=<%=b.getNum()%>'">삭 제</button>
+			<button class="btn btn-dark" onclick ="location.href ='list.jsp'">목록으로</button>
 			</div>
 					
 			

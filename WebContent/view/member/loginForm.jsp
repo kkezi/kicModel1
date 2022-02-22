@@ -15,7 +15,8 @@
 		<form action="<%=request.getContextPath() %>/view/member/loginPro.jsp" method ="post">
 		<div class="form-group">
 			<label>Name:</label> <input type="text"
-				class="form-control" name= "id"> <label>Password:</label>
+				class="form-control" name= "id"> 
+			<label>Password:</label>
 			<input type="password" class="form-control" name="pass">
 		</div>
 		<div id="center" style="padding: 3px;">
