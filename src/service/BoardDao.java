@@ -12,7 +12,7 @@ import util.JdbcConnection;
 
 public class BoardDao {
 	
-	public int nextNum() {
+	public int nextNum() {//boardseq를 읽어서 데이터로 가져오는 것
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
 		String sql = "select boardseq.nextval from dual";
@@ -41,23 +41,22 @@ public class BoardDao {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
 		//insert into member뒤 공백 한칸 있어야함 ----그리고 create table 했던 순서 지키기
-		String sql = "insert into board " + " values (boardseq.nextval,?,?,?,?,?,?,sysdate,?,0,boardseq.currentval,?,?)";
+		String sql = "insert into board " + " values (?,?,?,?,?,?,?,sysdate,?,0,?,?,?)";
+		//String sql ="insert into board" + " values(boardseq.nextval,?,?,?,?,?,?,sysdate,?,0,boardseq.nextval,?,?)";
 		
 		try {//db에 저장하기
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,board.getWriter());
-			pstmt.setString(2, board.getPass());
-			pstmt.setString(3, board.getSubject());
-			pstmt.setString(4, board.getContent());
-			pstmt.setString(5, board.getFile1());
-			pstmt.setString(6, board.getBoardid());
-			pstmt.setString(7, board.getIp());
-			//pstmt.setInt(8, board.getRef());
-			pstmt.setInt(8, board.getReflevel());
-			pstmt.setInt(9, board.getRefstep());
-			
-			
-	
+			pstmt.setInt(1, board.getNum()); //
+			pstmt.setString(2,board.getWriter());
+			pstmt.setString(3, board.getPass());
+			pstmt.setString(4, board.getSubject());
+			pstmt.setString(5, board.getContent());
+			pstmt.setString(6, board.getFile1());
+			pstmt.setString(7, board.getBoardid());
+			pstmt.setString(8, board.getIp());
+			pstmt.setInt(9, board.getRef());
+			pstmt.setInt(10, board.getReflevel());
+			pstmt.setInt(11, board.getRefstep());
 			return pstmt.executeUpdate();
 			
 		}catch (SQLException e){
@@ -66,11 +65,12 @@ public class BoardDao {
 			JdbcConnection.close(con,pstmt,null);
 		}
 		
-		
-		
 		return 0;
 	}//insert메서드	
 		
+	
+	
+	
 	public int boardCount(String boardid) {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -105,14 +105,13 @@ public class BoardDao {
 	public List<Board> boardList(int pageInt, int limit, int boardcount, String boardid) {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
-		String sql = 
-				//"select * from board where boardid =?"
+		//String sql = "select * from board where boardid =?"
 					//	+ " order by num desc";//최근 입력시킨 순으로 정렬하기
 		
-		"select * from ( " +
+		String sql = "select * from ( " +
 				" select rownum rnum, a.* from ( "+
 				" select * from board where boardid =? "+
-				" order by num desc) a) "+
+				" order by ref desc, refstep asc) a) "+ // (ref)기준글은 최신순으로 답글은 오래된 순으로 
 				" where rnum BETWEEN ? and ?";
 
 		
@@ -282,6 +281,25 @@ public class BoardDao {
 	} //deleteboard 메서드 
 	
 	
+	public void refStepAdd(int ref, int refstep) {
+		Connection con = JdbcConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql ="update board set refstep = refstep + 1 where ref = ? and refstep > ?";
+		
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, ref);
+			pstmt.setInt(2, refstep);
+			pstmt.executeUpdate();
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			JdbcConnection.close(con,pstmt,null);
+		}
+		
+		
+	}//refstep 답글 메서드
 	
 	
 	

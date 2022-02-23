@@ -23,12 +23,21 @@ board.setContent(multi.getParameter("content"));
 board.setFile1(multi.getFilesystemName("file1"));
 board.setIp(request.getLocalAddr());
 
+//board setting
 String boardid = (String)session.getAttribute("boardid");//저장된 boardid를 가져온다
 if(boardid==null) boardid = "1";
 board.setBoardid(boardid);
 
 BoardDao bd = new BoardDao();
+
+//새 게시글인 경우
+board.setNum(bd.nextNum());//db에서 다음 번호 읽음
+board.setRef(board.getNum());
+
+
 int num = bd.insertBoard(board);
+
+
 
 String msg = "게시물 등록 실패 ㅠㅠ";
 String url = "writeForm.jsp";

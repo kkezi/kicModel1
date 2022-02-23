@@ -19,7 +19,7 @@ Board b = bd.boardOne(num);
 %>
 
 	<div class="container">
-	<form name="f" action ="boardReplyPro.jsp" enctype ="multipart/form-data" method ="post"> <!--  post가 없으면 get으로 날라감 -->
+	<form name="f" action ="boardReplyPro.jsp" method ="post"> <!--  post가 없으면 get으로 날라감 -->
 	<input type ="hidden" name="num" value ="<%=b.getNum() %>" >
 	<input type ="hidden" name="ref" value ="<%=b.getRef() %>" >
 	<input type ="hidden" name="reflevel" value ="<%=b.getReflevel() %>" >
@@ -41,9 +41,10 @@ Board b = bd.boardOne(num);
 			<label>내용</label> 
 			<textarea class="form-control" rows = "10" cols = "50" name="content"></textarea>
 		</div>
-		<div class="form-group">
+		
+	  <!-- <div class="form-group"> <form에 넣는 태그 enctype ="multipart/form-data">
 			<label>파일저장:</label> <input type="file" class="form-control" name="file1">
-		</div>
+		</div> -->
 
 	
 

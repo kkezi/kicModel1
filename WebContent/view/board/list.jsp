@@ -13,9 +13,9 @@
 <%
 String boardid = "";
 int pageInt = 1;//현재 페이지를 의미
-int limit = 3; //한 페이지당 몇 게시글?
+int limit = 10; //한 페이지당 몇 게시글?
 
-//boardid (게시판 여러개잖아)----------------
+//boardid  (게시판 여러개잖아)----------------
 if(request.getParameter("boardid")!=null) {  
 	session.setAttribute("boardid", request.getParameter("boardid")); 
 	session.setAttribute("pageNum", "1");  //이걸 안하면 공지사항-3페이지에서 자유게시판 누르면 자유게시판 3페이지로 넘어감
@@ -120,7 +120,13 @@ case "2" : boardName = "자유게시판"; break;
 			%>
 				<tr>
 					<td><%=(boardnum--) %></td>
-					<td><a href ="boardInfo.jsp?num=<%=b.getNum()%>"><%=b.getSubject() %></a></td>
+					
+					<td>
+					<% if(b.getReflevel() > 0) { %>
+					<img src = "<%=request.getContextPath()%>/image/level.gif" width = "<%=7*b.getReflevel()%>">
+					<img src = "<%=request.getContextPath()%>/image/re.gif">
+				 	<% } %>
+					<a href ="boardInfo.jsp?num=<%=b.getNum()%>"><%=b.getSubject() %></a></td>
 					<td><%=b.getWriter() %></td>
 					<td><%=b.getRegdate() %></td>
 					<td><%=b.getFile1() %></td>

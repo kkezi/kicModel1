@@ -39,7 +39,7 @@ color: aqua;
 <body>
 	<nav class="navbar navbar-expand-lg bg-light navbar-light">
 		<!-- Brand -->
-		<a class="navbar-brand" href="#"><img src="<%=request.getContextPath() %>/image/logo.png"
+		<a class="navbar-brand" href="<%=request.getContextPath() %>/view/main.jsp"><img src="<%=request.getContextPath() %>/image/logo.png"
 			  style="margin-right: 20%;"></a>
 
 		<!-- Links -->
