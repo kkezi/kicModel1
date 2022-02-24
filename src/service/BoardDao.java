@@ -285,7 +285,8 @@ public class BoardDao {
 		Connection con = JdbcConnection.getConnection();
 		PreparedStatement pstmt = null;
 		String sql ="update board set refstep = refstep + 1 where ref = ? and refstep > ?";
-		
+		// ref는 기준이 되는 글의 num  
+		//기준 되는 게시물이 refstep : 2 여기에 답글을 달려면  refstep이 3이 되니까 > 되는 것 
 
 		try {
 			pstmt = con.prepareStatement(sql);
