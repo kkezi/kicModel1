@@ -1,2 +1,2 @@
 # Model1 
-학원 model1 웹
+KIC model1 웹
